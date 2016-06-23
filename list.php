@@ -1,17 +1,17 @@
 <?php
 
-// session_start();
+session_start();
 include 'database.php';
 
-// if(!isset($_SESSION['user']))
-// {
-//   header("Location: index.php");
-// }
+if(!isset($_SESSION['user']))
+{
+  header("Location: index.php");
+}
 
-// $query = "SELECT * FROM users WHERE user_id=".$_SESSION['user'];
+$query = "SELECT * FROM users WHERE user_id=".$_SESSION['user'];
 
-// $result = $con->query($query);
-// $userRow = $result->fetch_array();
+$result = $con->query($query);
+$userRow = $result->fetch_array();
 
 // print_r($con);
 
