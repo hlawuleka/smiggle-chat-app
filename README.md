@@ -11,9 +11,6 @@ $database = "database";
 
 
 #Database with sample content
---
--- Table structure for table `users`
---
 
 CREATE TABLE `users` (
   `user_id` int(5) NOT NULL,
@@ -22,9 +19,6 @@ CREATE TABLE `users` (
   `password` varchar(50) NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `users`
---
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`) VALUES
 (1, 'ilsids', 'ilsodam@gmail.com', '45edd741812abf42a7b799a6fc558d9c'),
@@ -34,24 +28,3 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `password`) VALUES
 (5, '', 'ilsoda@webmail.co.za', ''),
 (6, 'ilsoda@webail.co.za', 'ilsoda@webail.co.za', 'ilsoda@webail.co.za'),
 (7, 'demo@enca.co.za', 'demo@enca.co.za', '79593a6a3da24a4fef0ca26b8d655380');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
