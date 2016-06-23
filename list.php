@@ -1,41 +1,17 @@
 <?php
 
-session_start();
+// session_start();
 include 'database.php';
 
-if(isset($_SESSION['user'])!="")
-{
-  header("Location: chat.php");
-}
+// if(!isset($_SESSION['user']))
+// {
+//   header("Location: index.php");
+// }
 
-if(isset($_POST['register']))
-{
-  $email = mysql_real_escape_string($_POST['email']);
-  $upass = mysql_real_escape_string($_POST['pass']);
-  
-  $email = trim($email);
-  $upass = trim($upass);
+// $query = "SELECT * FROM users WHERE user_id=".$_SESSION['user'];
 
-  $query = "SELECT user_id, username, password FROM users WHERE email='$email'";
-
-  $result = $con->query($query);
-  $row = $result->fetch_array();
-  
-  $count = mysql_num_rows($result); 
-  
-  if($count == 1 && $row['user_pass']==md5($upass))
-  {
-    $_SESSION['user'] = $row['user_id'];
-    header("Location: chat.php");
-  }
-  else
-  {
-    ?>
-        <script>alert('Please check the username / password');</script>
-        <?php
-  }
-  
-}
+// $result = $con->query($query);
+// $userRow = $result->fetch_array();
 
 // print_r($con);
 
@@ -50,7 +26,7 @@ if(isset($_POST['register']))
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Smiggle Chat</title>
+    <title>Smiggle Chat | List all</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -65,7 +41,7 @@ if(isset($_POST['register']))
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="assets/js/ie-emulation-modes-warning.js"></script>
-    
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -75,7 +51,7 @@ if(isset($_POST['register']))
 
   <body role="document" onload="ajax();">
 
-    <!-- Fixed navbar -->
+   <!-- Fixed navbar -->
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -102,32 +78,28 @@ if(isset($_POST['register']))
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>User registration</h1>
-        <p>Please register to be able to login and start Smiggling.</p>
-
-        <center>
-            <div id="register-form">
-                <form method="post">
-                    <table align="center" width="50%" border="0">
-                        <tr>
-                            <td><input type="text" name="email" placeholder="Your Email" required /></td>
-                        </tr>
-                        <tr>
-                            <td><input type="password" name="pass" placeholder="Your Password" required /></td>
-                        </tr>
-                        <tr>
-                            <td><button type="submit" name="register">LogIn</button></td>
-                        </tr>
-                        <tr>
-                            <td><a href="register.php">Register for an account</a></td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </center>
+        <h1>List all people</h1>
       </div>
 
-      
+      <?php
+          $query = "SELECT * FROM `users` u LEFT JOIN `chat` c ON u.email = c.u_email";
+
+          $result = $con->query($query);
+
+          // print_r($result);
+
+          while ($row = $result->fetch_array()) :
+
+      ?>
+     <div id="chatbox">
+        <div id="chatinner">
+            <span><?php print $row['email'] ?></span>
+            <span><?php if ($row['message']){print " -- <a href='#'>Continue chating</a>";}else{print " -- <a href='#'>Start chating</a>";} ?></span>
+        </div>
+     </div> 
+
+   <?php endwhile ?>
+
     </div> <!-- /container -->
 
 

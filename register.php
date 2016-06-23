@@ -1,43 +1,22 @@
 <?php
-
 session_start();
-include 'database.php';
-
 if(isset($_SESSION['user'])!="")
 {
   header("Location: chat.php");
 }
+include 'database.php';
 
-if(isset($_POST['register']))
-{
-  $email = mysql_real_escape_string($_POST['email']);
-  $upass = mysql_real_escape_string($_POST['pass']);
-  
-  $email = trim($email);
-  $upass = trim($upass);
 
-  $query = "SELECT user_id, username, password FROM users WHERE email='$email'";
+if (isset($_POST['btn-register'])){
 
-  $result = $con->query($query);
-  $row = $result->fetch_array();
-  
-  $count = mysql_num_rows($result); 
-  
-  if($count == 1 && $row['user_pass']==md5($upass))
-  {
-    $_SESSION['user'] = $row['user_id'];
-    header("Location: chat.php");
-  }
-  else
-  {
-    ?>
-        <script>alert('Please check the username / password');</script>
-        <?php
-  }
-  
-}
+          $username = $_POST['username'];
+          $email = $_POST['email'];
+          $password = md5($_POST['password']);
 
-// print_r($con);
+          $query = "INSERT INTO users(username,email,password) VALUES('$username','$email','$password')";
+
+          $result = $con->query($query);
+        }
 
 ?>
 <!DOCTYPE html>
@@ -50,7 +29,7 @@ if(isset($_POST['register']))
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Smiggle Chat</title>
+    <title>Smiggle Chat | Register</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -65,7 +44,6 @@ if(isset($_POST['register']))
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="assets/js/ie-emulation-modes-warning.js"></script>
-    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -102,32 +80,33 @@ if(isset($_POST['register']))
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>User registration</h1>
-        <p>Please register to be able to login and start Smiggling.</p>
-
+        <h1>Register account</h1>
         <center>
-            <div id="register-form">
+            <div id="login-form">
                 <form method="post">
                     <table align="center" width="50%" border="0">
                         <tr>
-                            <td><input type="text" name="email" placeholder="Your Email" required /></td>
+                            <td><input type="text" name="username" placeholder="User Name" required /></td>
                         </tr>
                         <tr>
-                            <td><input type="password" name="pass" placeholder="Your Password" required /></td>
+                            <td><input type="email" name="email" placeholder="Your Email" required /></td>
                         </tr>
                         <tr>
-                            <td><button type="submit" name="register">LogIn</button></td>
+                            <td><input type="password" name="password" placeholder="Your Password" required /></td>
                         </tr>
                         <tr>
-                            <td><a href="register.php">Register for an account</a></td>
+                            <td><button type="submit" name="btn-register">LogIn</button></td>
+                        </tr>
+                        <tr>
+                            <td><a href="index.php">Register for an account</a></td>
                         </tr>
                     </table>
-                </form>
+                </form> 
             </div>
         </center>
       </div>
 
-      
+
     </div> <!-- /container -->
 
 
